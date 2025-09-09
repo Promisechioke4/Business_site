@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Business</title>
+  <title>MIBROWNS FOOTIES</title>
   <script src="//unpkg.com/alpinejs" defer></script>
   <script src="https://cdn.tailwindcss.com"></script>
     <!-- Facebook SDK -->
@@ -19,7 +19,7 @@
      <!-- Header -->
   <header class="bg-white shadow py-4">
     <div class="container mx-auto px-4 flex justify-between items-center">
-      <h1 class="text-2xl font-bold">📦 My Business</h1>
+      <h1 class="text-2xl font-bold">📦 MIBROWNS FOOTIES</h1>
       <nav>
         <ul class="flex space-x-4">
           {% for link in social_links %}
@@ -47,7 +47,7 @@
      
     </video> -->
     <div class="relative z-10 flex flex-col justify-center items-center h-full bg-black bg-opacity-40 text-white px-4">
-      <h1 class="text-4xl md:text-6xl font-bold mb-4 text-center">We Sell The Best Quality.</h1>
+      <h1 class="text-4xl md:text-6xl font-bold mb-4 text-center">We Make The Best Quality.</h1>
       <p class="text-lg md:text-2xl mb-6 text-center">See our products live, place your order instantly.</p>
       <a href="#products" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded text-lg transition">
         Explore Products
@@ -92,15 +92,24 @@
     <img src="{% static 'img/whatsapp-icon-logo-svgrepo-com.svg' %}" alt="WhatsApp" class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8" />
   </a>
 
-  <div 
-  x-data="{ show: false }" 
-  x-init="if (window.location.hash === '#success') { show = true; setTimeout(() => show = false, 3000); }" 
-  x-show="show"
-  x-transition
-  class="fixed top-6 right-6 bg-green-600 text-white px-6 py-3 rounded shadow-lg z-50"
->
-  ✅ Order placed successfully!
-</div>
+  {% if request.GET.whatsapp == 'true' %}
+  <div id="toast-success" class="fixed top-5 right-5 bg-green-100 text-green-900 p-4 rounded shadow-lg z-50">
+    ✅ Order placed successfully!
+  </div>
+  <script>
+    // Show toast and remove after 3s
+    setTimeout(() => {
+      document.getElementById('toast-success')?.remove();
+    }, 100000);
+
+    // Auto-open WhatsApp
+    const msg = "{{ request.GET.message|urlencode }}";
+    const phone = "+2348147726414";
+    const waURL = `https://wa.me/${phone}?text=${msg}`;
+    window.open(waURL, '_blank');  // or '_self' if you want to leave your site
+  </script>
+{% endif %}
+
 
 </body>
 </html>

@@ -12,14 +12,6 @@ class SocialLink(models.Model):
     url = models.URLField()
     icon_class = models.CharField(max_length=50)
 
-class OrderRequest(models.Model):
-    name = models.CharField(max_length=100)
-    phone = models.CharField(max_length=20)
-    product = models.CharField(max_length=100)
-    note = models.TextField(blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-
 class Product(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
@@ -29,3 +21,16 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class OrderRequest(models.Model):
+    name = models.CharField(max_length=100)
+    phone = models.CharField(max_length=20)
+    note = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.name} - {self.product.name}"
+
+

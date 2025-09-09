@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.sqlite3
+*.log
+
+# Django migrations
+**/migrations/
+!*/migrations/__init__.py
+
+# VS Code
+.vscode/
+
+
+# Environment
+.env
+.env.*
+
+# Virtual Environment
+venv/
+world/  # replace with your venv folder name if different
+
+# Static & Media files
+/staticfiles/          # collected static files
+/media/                # uploaded media (optional to ignore)
+*.sass-cache
+*.css.map
+
+# Node & Tailwind (if you're using Tailwind CLI)
+# node_modules/
+# tailwind.config.js
+# postcss.config.js
+# package-lock.json
+# yarn.lock
+
+# Build files
+build/
+dist/
+
+# OS Files
+Thumbs.db
+ehthumbs.db

@@ -1,26 +1,41 @@
+from urllib.parse import urlencode
 from django.shortcuts import render, redirect
 from .models import Video, SocialLink, Product
-from django.utils.http import urlencode
 from .forms import OrderForm
+from django.urls import reverse
 import os
-
-# Create your views here.
-
-from django.shortcuts import redirect
-from urllib.parse import urlencode
 
 def submit_order(request):
     if request.method == "POST":
         form = OrderForm(request.POST)
         if form.is_valid():
             order = form.save()
-            message = f"Hi, my name is {order.name}. I want to order {order.product}."
-            phone_number = "2349078218690"
 
-            # Redirect to WhatsApp and back to show toast
-            return redirect(f"https://wa.me/{phone_number}?{urlencode({'text': message})}#success")
-    
-    return redirect('/?success=true')  # fallback
+            # Direct access to the related Product object
+            product = order.product
+
+            try:
+                image_url = request.build_absolute_uri(product.image.url)
+            except:
+                image_url = "Image not available"
+
+            message = (
+                f"Hi, I want to order *{product.name}*.🛒\n\n"
+                f"📸 Product Image: {image_url}\n\n"
+                f"📞 Phone: {order.phone}\n"
+                f"🧍 Name: {order.name}\n"
+                f"📝 Note: {order.note if order.note else 'N/A'}"
+            )
+
+            params = urlencode({
+                'whatsapp': 'true',
+                'message': message
+            })
+
+            return redirect(f"{reverse('index')}?{params}")
+
+    return redirect(reverse('index'))
+
 
 
 
@@ -42,7 +57,7 @@ def index(request):
 
 def redirect_to_whatsapp(request):
     product = request.GET.get('product', 'an item')
-    phone_number = os.environ.get("WHATSAPP_NUMBER", "2349078218690")  # fallback
+    phone_number = os.environ.get("WHATSAPP_NUMBER", "+2348147726414")  # fallback
     message = f"Hi, I'm interested in ordering {product}"
     query = urlencode({"text": message})
 
