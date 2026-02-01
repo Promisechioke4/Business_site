@@ -20,11 +20,10 @@ def submit_order(request):
                 image_url = "Image not available"
 
             message = (
-                f"Hi, I want to order *{product.name}*.🛒\n\n"
-                f"📸 Product Image: {image_url}\n\n"
-                f"📞 Phone: {order.phone}\n"
-                f"🧍 Name: {order.name}\n"
-                f"📝 Note: {order.note if order.note else 'N/A'}"
+                f"Hi, I want to order {product.name}.🛒\n\n"
+                f"Image: {image_url}\n\n"
+                f"Name: {order.name}\n"
+                f"Note: {order.note if order.note else 'N/A'}"
             )
 
             params = urlencode({
